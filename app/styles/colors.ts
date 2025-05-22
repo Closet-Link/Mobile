@@ -7,7 +7,8 @@ export type ColorVariant =
   | 'textPrimary'
   | 'textSecondary'
   | 'accentGreen'
-  | 'errorRed';
+  | 'errorRed'
+  | 'white';
 
 const colors: Record<ColorVariant, string> = {
   primary1: '#CDAA7D',    // 강조 요소
@@ -19,6 +20,7 @@ const colors: Record<ColorVariant, string> = {
   textSecondary: '#7A7A7A', // 서브 텍스트
   accentGreen: '#6DA58F',  // 긍정적 상태 표시
   errorRed: '#CC5C5C',    // 오류 메시지
+  white: '#FFFFFF',      // 흰색
 };
 
 export default colors;
