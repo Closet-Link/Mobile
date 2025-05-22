@@ -47,3 +47,6 @@ app-example
 
 expo-env.d.ts
 # @end expo-cli
+
+# cursor 
+.cursor/rules
