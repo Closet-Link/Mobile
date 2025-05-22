@@ -1,4 +1,4 @@
-import colors, { ColorVariant } from '../styles/colors';
+import colors, { ColorVariant } from '../../app/styles/colors';
 
 export const useColors = () => {
   const getColor = (variant: ColorVariant): string => {

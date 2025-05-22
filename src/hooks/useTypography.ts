@@ -1,5 +1,5 @@
 import { TextStyle } from 'react-native';
-import typography, { TypographyVariant } from '../styles/typography';
+import typography, { TypographyVariant } from '../../app/styles/typography';
 
 export const useTypography = () => {
   const getTypographyStyle = (variant: TypographyVariant): TextStyle => {

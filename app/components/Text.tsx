@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text as RNText, TextProps as RNTextProps, TextStyle } from 'react-native';
-import useTypography from '../hooks/useTypography';
+import useTypography from '../../src/hooks/useTypography';
 import { TypographyVariant } from '../styles/typography';
 
 interface TextProps extends RNTextProps {
