@@ -36,6 +36,12 @@
           "backgroundColor": "#ffffff"
         }
       ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.270133165712-erkg39nqnv7mg2fl6ic8nlj558lvponn"
+        }
+      ],
       "expo-web-browser"
     ],
     "experiments": {
