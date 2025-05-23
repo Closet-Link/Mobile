@@ -1,44 +1,72 @@
-import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from 'react';
+import { ActivityIndicator, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 import Text from "./components/Text";
 import colors from "./styles/colors";
 
-import { useEffect } from 'react';
-
-// 이미지 import 예시
+// 이미지 import
 import GoogleIcon from '../assets/images/icons/google.svg';
 import closetIllustration from '../assets/images/illustrations/closet_illustration.png';
 
+import { useAuth } from '../src/contexts/AuthContext';
 import { useGoogleSignIn } from '../src/hooks/useGoogleSignIn';
+import Home from './home';
 
 export default function Index() {
-  const { configureGoogleSignIn, signIn, loading, error } = useGoogleSignIn();
+  const { configureGoogleSignIn, signIn, loading: googleLoading, error } = useGoogleSignIn();
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
     configureGoogleSignIn();
   }, []);
 
   const handleGoogleSignIn = async () => {
-    const userInfo = await signIn();
-    if (userInfo) {
-      console.log('User Info:', userInfo);
+    const user = await signIn();
+    if (user) {
+      console.log('로그인 성공:', user);
     }
   };
 
+  // 로딩 중일 때
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary1} />
+        <Text variant="body1" color={colors.textSecondary} style={styles.loadingText}>
+          잠시만 기다려주세요...
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
+  // 인증된 사용자라면 홈 화면 표시
+  if (isAuthenticated) {
+    return <Home />;
+  }
+
+  // 미인증 사용자라면 로그인 화면 표시
   return (
     <SafeAreaView style={styles.container}>
-
       <Image source={closetIllustration} style={styles.illustration}/>
 
       <Text variant="title1" color={colors.textPrimary} style={styles.title}>
         {'당신의 옷장\n누군가의 스타일이 되다'}
       </Text>
 
+      {error && (
+        <Text variant="body2" color={colors.errorRed} style={styles.errorText}>
+          {error}
+        </Text>
+      )}
+
       <View style={styles.buttonContainer}>
-        
-        <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn} disabled={loading}>
+        <TouchableOpacity 
+          style={styles.googleButton} 
+          onPress={handleGoogleSignIn} 
+          disabled={googleLoading}
+        >
           <GoogleIcon width={20} height={20} style={styles.googleIcon} />
           <Text variant="body1" color={colors.textPrimary} style={styles.buttonText}>
-            {loading ? '로그인 중...' : '구글로 시작하기'}
+            {googleLoading ? '로그인 중...' : '구글로 시작하기'}
           </Text>
         </TouchableOpacity>
 
@@ -47,9 +75,7 @@ export default function Index() {
             둘러보기
           </Text>
         </TouchableOpacity>
-
       </View>
-
     </SafeAreaView>
   );
 }
@@ -61,6 +87,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.gray1,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.gray1,
+  },
+  loadingText: {
+    marginTop: 16,
+  },
   illustration: {
     width: 192,
     height: 192,
@@ -69,6 +104,11 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     marginBottom: 40,
+  },
+  errorText: {
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingHorizontal: 24,
   },
   buttonContainer: {
     width: '100%',

@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.closetlink.app"
+      "bundleIdentifier": "com.closetlink.app",
+      "appleTeamId": "9JZYRP3D46"
     },
     "android": {
       "adaptiveIcon": {
