@@ -2,11 +2,28 @@ import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-n
 import Text from "./components/Text";
 import colors from "./styles/colors";
 
+import { useEffect } from 'react';
+
 // 이미지 import 예시
 import GoogleIcon from '../assets/images/icons/google.svg';
 import closetIllustration from '../assets/images/illustrations/closet_illustration.png';
 
+import { useGoogleSignIn } from '../src/hooks/useGoogleSignIn';
+
 export default function Index() {
+  const { configureGoogleSignIn, signIn, loading, error } = useGoogleSignIn();
+
+  useEffect(() => {
+    configureGoogleSignIn();
+  }, []);
+
+  const handleGoogleSignIn = async () => {
+    const userInfo = await signIn();
+    if (userInfo) {
+      console.log('User Info:', userInfo);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -18,13 +35,13 @@ export default function Index() {
 
       <View style={styles.buttonContainer}>
         
-        <TouchableOpacity  style={styles.googleButton} onPress={() => { console.log("구글 로그인") }}>
+        <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn} disabled={loading}>
           <GoogleIcon width={20} height={20} style={styles.googleIcon} />
           <Text variant="body1" color={colors.textPrimary} style={styles.buttonText}>
-            구글로 시작하기
+            {loading ? '로그인 중...' : '구글로 시작하기'}
           </Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity style={styles.button} onPress={() => { console.log("둘러보기") }}>
           <Text variant="body1" color={colors.textPrimary}>
             둘러보기
