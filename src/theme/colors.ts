@@ -23,4 +23,4 @@ const colors: Record<ColorVariant, string> = {
   white: '#FFFFFF',      // 흰색
 };
 
-export default colors;
+export default colors; 

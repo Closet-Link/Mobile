@@ -1,28 +1,30 @@
 import React from 'react';
 import { Text as RNText, TextProps as RNTextProps, TextStyle } from 'react-native';
-import useTypography from '../../src/hooks/useTypography';
-import { TypographyVariant } from '../styles/typography';
+import { colors, ColorVariant, typography, TypographySize } from '../../theme';
 
 interface TextProps extends RNTextProps {
-  variant?: TypographyVariant;
-  color?: string;
+  variant?: TypographySize;
+  color?: ColorVariant | string;
   style?: TextStyle;
 }
 
 export const Text: React.FC<TextProps> = ({
   variant = 'body1',
-  color,
+  color = 'textPrimary',
   style,
   children,
   ...props
 }) => {
-  const { getTypographyStyle } = useTypography();
+  const textColor = typeof color === 'string' && color in colors ? colors[color as ColorVariant] : color;
 
   return (
     <RNText
       style={[
-        getTypographyStyle(variant),
-        color && { color },
+        {
+          fontSize: typography.sizes[variant],
+          lineHeight: typography.lineHeights[variant],
+          color: textColor,
+        },
         style,
       ]}
       {...props}

@@ -26,6 +26,11 @@
       "output": "static",
       "favicon": "./assets/images/icons/app_icon.png"
     },
+    "router": {
+      "ignore": [
+        "*.styles.ts"
+      ]
+    },
     "plugins": [
       "expo-router",
       [

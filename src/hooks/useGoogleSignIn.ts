@@ -2,7 +2,7 @@ import {
     GoogleSignin,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useAuth } from '../contexts/AuthContext';
 import { AuthService } from '../services/authService';
 
@@ -11,11 +11,11 @@ export const useGoogleSignIn = () => {
     const [error, setError] = useState<string | null>(null);
     const { login } = useAuth();
 
-    const configureGoogleSignIn = () => {
+    const configureGoogleSignIn = useCallback(() => {
         GoogleSignin.configure({
             iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
         });
-    };
+    }, []);
 
     const signIn = async () => {
         try {
@@ -75,7 +75,8 @@ export const useGoogleSignIn = () => {
     const signOut = async () => {
         try {
             await GoogleSignin.signOut();
-        } catch (err) {
+        } catch (error) {
+            console.error('로그아웃 오류:', error);
             setError('로그아웃 중 오류가 발생했습니다.');
         }
     };
